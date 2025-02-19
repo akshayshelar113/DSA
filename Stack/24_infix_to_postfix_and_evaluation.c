@@ -5,6 +5,7 @@
 
 int IsSpace(char);
 int IsOperator(char);
+int IsExpresionValid(const char *);
 long PostfixEvalution(const char *);
 void InFixToPostfix(const char *, char *);
 
@@ -23,7 +24,8 @@ int main(void)
     printf("\nPostfix expression is: %s", szPostfix);
 
     lResult = PostfixEvalution(szPostfix);
-    printf("\n\nResult is: %d", lResult);
+    if (lResult != -1)
+        printf("\n\nResult is: %d", lResult);
 
     return 0;
 }
@@ -37,6 +39,12 @@ void InFixToPostfix(const char *pszInfix, char *pszPostfix)
 
     extern int g_iTop;
     extern int g_Stack[STACK_MAX];
+
+    if (!IsExpresionValid(pszInfix))
+    {
+        printf("\nInvalid expression");
+        return;
+    }
 
     iCounter2 = 0;
     for (iCounter1 = 0; pszInfix[iCounter1] != '\0'; iCounter1++)
@@ -134,6 +142,29 @@ long PostfixEvalution(const char *pszPostfix)
         }
     }
     return Pop();
+}
+
+int IsExpresionValid(const char *pInfix)
+{
+    int iCounter;
+    int tempTop = -1;
+    char tempStack[STACK_MAX];
+
+    for (iCounter = 0; pInfix[iCounter] != '\0'; iCounter++)
+    {
+        if (pInfix[iCounter] == '(')
+
+            tempStack[++tempTop] = '(';
+
+        else if (pInfix[iCounter] == ')')
+        {
+            if (tempTop == -1)
+                return 0;
+
+            tempTop--;
+        }
+    }
+    return (tempTop == -1);
 }
 
 int IsOperator(char chSymbol)

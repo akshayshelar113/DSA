@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<malloc.h>
 
 struct node
 {
@@ -109,7 +110,7 @@ void InsertNode(struct node **ppRoot, int iNo)
             pPtr = pPtr->pRChild;
         else
         {
-            printf("Dublicate data");
+            printf("Duplicate data");
             return;
         }
     }
